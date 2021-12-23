@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="car.js"></script>
+    <script src="obstacle.js"></script>
+</head>
+<body>
+<canvas id="myCanvas" width="1368" height="768" style="border: solid 1px "></canvas>
+<script>
+let canvas = document.getElementById('myCanvas')
+let ctx = canvas.getContext('2d')
+let motor1 = new Motor(150,100,150,100,'img/right.jpg',40)
+let obstacle1 = new Obstacle(50,50,100,100)
+
+obstacle1.drawObstacle(ctx)
+
+motor1.drawMotor(ctx)
+
+function clearCanvas(){
+    ctx.clearRect(0,0,1368,768)
+}
+
+function updateCanvas(){
+    clearCanvas()
+    motor1.drawMotor(ctx)
+    obstacle1.drawObstacle(ctx)
+}
+
+function moveMotor(event){
+    switch (event.keyCode){
+        case 37:{
+            motor1.src = 'img/left.jpg'
+            motor1.moveLeft();
+            break
+        }
+        case 38:{
+            motor1.src = 'img/up.jpg'
+            motor1.moveUp();
+            break
+        }
+        case 39:{
+            motor1.src = 'img/right.jpg'
+            motor1.moveRight();
+            break
+        }
+        case 40:{
+            motor1.src = 'img/down.jpg'
+            motor1.moveDown();
+            break
+        }
+    }
+
+
+    updateCanvas()
+}
+function moveObstacle() {
+    if (obstacle1._y > canvas.clientHeight){
+        obstacle1._y = 0;
+    }
+    obstacle1.moveDown();
+    updateCanvas();
+}
+
+document.addEventListener('keydown', moveMotor)
+setInterval(moveObstacle, 100)
+</script>
+</body>
+</html>
